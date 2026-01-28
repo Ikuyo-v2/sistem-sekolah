@@ -4,8 +4,20 @@ use App\Controllers\StudentController;
 class Router 
 {
 
+    private array $routes = [];
+    public function add(string $method, string $uri, string $controller, string $function)
+    {
+        $this ->routes[] = [
+            'method' => $method,
+            'uri' => $uri,
+            'controller' => $controller,
+            'function' => $function
+        ];
+    }
     public function run()
     {
+        foreach ($this->routes as $route) {
+    
         $method = $_SERVER['REQUEST_METHOD'];
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
