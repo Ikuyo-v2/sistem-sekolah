@@ -1,13 +1,13 @@
 <?php
 namespace App\Core;
 use App\Controllers\StudentController;
-class Router 
+class Router
 {
 
     private array $routes = [];
     public function add(string $method, string $uri, string $controller, string $function)
     {
-        $this ->routes[] = [
+        $this->routes[] = [
             'method' => $method,
             'uri' => $uri,
             'controller' => $controller,
@@ -16,31 +16,48 @@ class Router
     }
     public function run()
     {
-        foreach ($this->routes as $route) {
-    
         $method = $_SERVER['REQUEST_METHOD'];
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-        if ($method == 'GET' && $uri == '/students') {
-            require_once './app/controllers/StudentController.php';
-            $controller = new StudentController();
-            $controller->index();
-            return;
-        }
 
-          if ($method == 'GET' && $uri == '/students/create') {
-            require_once './app/controllers/StudentController.php';
-            $controller = new StudentController();
-            $controller->create();
-            return;
-        }
+        foreach ($this->routes as $route) {
+            $pattern = str_replace(
+                '{id}',
+                '([0-9]+)',
+                $route['uri'],
+            );
 
+            $pattern = '#^' . $pattern . '$#';
+            // student/([0-9]+)
+
+            if (preg_match($pattern, $uri, $matches)) {
+                array_shift($matches); // menghapus elemen pertama yang merupakan full match
+                require_once './app/controllers/' . $route['controller'] . '.php';
+
+                $controllerClass = 'App\\Controllers\\' . $route['controller'];
+                $controller = new $controllerClass();
+                $function = $route['function'];
+
+                call_user_func_array([$controller, $function], $matches);
+                // index($parameter1, $parameter2, ...);
+                //ex: call_user_func_array(['StudentController','index'], [1,2]);
+                return;
+            }
+
+        }
 
         http_response_code(404);
         echo '<h1>404 Not Found</h1>';
+
+        }
+
+    public function 
+    show(string $id)
+      {
+        echo '<h1>Student Detail</h1>';
+        echo '<p>Menampilkan detail siswa dengan ID: {$id}</p>';
+      }
+
     }
-}
-
-
 
 ?>
