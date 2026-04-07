@@ -20,7 +20,7 @@
     <!-----Header end------>
 
     <main class="grow container mx-auto">
-        <div class="container mx-auto mt-8 shadow-lg rounded-lg bg-white p-6">
+        <div class="container mx-auto mt-8 shadow-lg rounded-lg bg-white p-6 bg-gray-100">
             <h1 class="text-2xl font-bold mb-4">Daftar Siswa</h1>
             <p>Menampilkan Daftar Siswa</p>
             <table class="w-full border-collapse border border-0">
