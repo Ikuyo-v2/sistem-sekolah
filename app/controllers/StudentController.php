@@ -3,23 +3,30 @@ namespace App\Controllers;
 
 class StudentController 
 {
-    
+    private function getStudents(): array
+    {
+        // Placeholder data; replace with DB fetch in future
+        return [
+            ['id' => 1, 'name' => 'Ahmad', 'class' => 'X IPA 1'],
+            ['id' => 2, 'name' => 'Siti', 'class' => 'X IPS 2'],
+            ['id' => 3, 'name' => 'Budi', 'class' => 'XI IPA 3'],
+        ];
+    }
+
     public function index()
     {
-        echo '<h1>Students Listss</h1>';
-        echo '<p>Menambpikan Daftar siswa</p>';
+        $students = $this->getStudents();
+        require_once '../app/views/students/index.php';
     }
 
     public function create()
     {
-        echo '<h1>Add Students </h1>';
-        echo '<p>Menambpikan form tambah siswa</p>';
+        require_once '../app/views/students/create.php';
     }
 
     public function show($id)
     {
-        echo '<h1>Student Details</h1>';
-        echo '<p>Menampilkan detail siswa dengan ID: ' . $id . '</p>';
+        require_once '.app/views/students/show.php';
     }
 
 
